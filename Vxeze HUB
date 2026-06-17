@@ -10,6 +10,10 @@ getgenv().VxezeKaitun = {
     AutoSellFruit = true,
     AutoCollectSeedPack = true,
     AutoExpandGarden = true,
+    AutoBuyPets = true,
+    AutoEquipPets = true,
+    AutoBuyPetSlots = true,
+    AutoPlay = true,
     AutoMail = false,
 
     -- FPS Boost
@@ -57,11 +61,35 @@ getgenv().VxezeKaitun = {
     MaxPlantPerCycle = 30,
     MaxCollectPerCycle = 40,
     MaxSellPerCycle = 30,
+    MaxPetBuysPerCycle = 2,
+    MaxPetEquipsPerCycle = 3,
 
     -- Plant movement
     PlantYOffset = 3.5,
     PlantTweenSpeed = 50,
     PlantOccupiedSpacing = 2.0,
+
+    -- Pets
+    PetBuyMinSheckles = 0,
+    PetBuyTeleportOffset = Vector3.new(0, 2.5, 4),
+    PetEnabled = {
+        All = false,
+        Frog = true,
+        Bunny = true,
+        Deer = true,
+        Owl = true,
+        Robin = true,
+        Bee = true,
+        Unicorn = true,
+        Monkey = true,
+        GoldenDragonfly = true,
+        ["Golden Dragonfly"] = true,
+        Raccoon = true,
+        BlackDragon = true,
+        ["Black Dragon"] = true,
+        IceSerpent = true,
+        ["Ice Serpent"] = true,
+    },
 
     -- Buy Seed Whitelist
     BuySeedEnabled = {
@@ -162,3 +190,4 @@ getgenv().VxezeKaitun = {
 
 if not getgenv().VxezeKaitunRunning then
     loadstring(game:HttpGet("https://gist.githubusercontent.com/angeryy-tvy/e284f6d9b679f604c1eab3c30ad0d51f/raw/GAG2-Kaitun-Vxeze"))()
+end
