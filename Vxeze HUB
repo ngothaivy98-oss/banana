@@ -14,7 +14,7 @@ getgenv().VxezeKaitun = {
     AutoMail = false,
 
     -- FPS Boost
-    FpsBoost = false,
+    FpsBoost = true,
 
     -- SeedPack
     CollectGoldSeed = true,
