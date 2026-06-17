@@ -10,9 +10,6 @@ getgenv().VxezeKaitun = {
     AutoSellFruit = true,
     AutoCollectSeedPack = true,
     AutoExpandGarden = true,
-    AutoBuyPets = true,
-    AutoEquipPets = true,
-    AutoBuyPetSlots = true,
     AutoPlay = true,
     AutoMail = false,
 
