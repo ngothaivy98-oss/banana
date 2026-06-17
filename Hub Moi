@@ -19,6 +19,7 @@ task.spawn(function()
     task.wait(5)
     local player = game:GetService("Players").LocalPlayer
     local playerGui = player:WaitForChild("PlayerGui")
+    local RunService = game:GetService("RunService")
 
     if playerGui:FindFirstChild("GaG2_AntiLagGui") then
         playerGui.GaG2_AntiLagGui:Destroy()
@@ -30,20 +31,135 @@ task.spawn(function()
     screenGui.ResetOnSpawn = false
     screenGui.Parent = playerGui
 
-    local frame = Instance.new("Frame")
-    frame.Size = UDim2.new(1, 0, 1, 0)
-    frame.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
-    frame.Parent = screenGui
+    local mainFrame = Instance.new("Frame")
+    mainFrame.Size = UDim2.new(1, 0, 1, 0)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+    mainFrame.Parent = screenGui
 
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, 0, 0, 60)
-    label.Position = UDim2.new(0, 0, 0.45, 0)
-    label.BackgroundTransparency = 1
-    label.Text = "GROW A GARDEN 2 - CHẾ ĐỘ TREO MÁY TIẾT KIỆM PIN\n[ Hệ thống đang chạy ngầm - Đồ họa 3D đã tắt ]"
-    label.TextColor3 = Color3.fromRGB(0, 255, 127)
-    label.TextSize = 18
-    label.Font = Enum.Font.SourceSansBold
-    label.Parent = frame
+    local menuFrame = Instance.new("Frame")
+    menuFrame.Size = UDim2.new(0, 350, 0, 480)
+    menuFrame.Position = UDim2.new(0.5, -175, 0.5, -240)
+    menuFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+    menuFrame.BorderSizePixel = 0
+    menuFrame.Parent = mainFrame
+
+    local menuCorner = Instance.new("UICorner")
+    menuCorner.CornerRadius = UDim.new(0, 8)
+    menuCorner.Parent = menuFrame
+
+    local menuStroke = Instance.new("UIStroke")
+    menuStroke.Color = Color3.fromRGB(0, 200, 100)
+    menuStroke.Thickness = 1.5
+    menuStroke.Parent = menuFrame
+
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Size = UDim2.new(1, 0, 0, 40)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.Text = "Banana Monitor | discord.gg/chuoihub"
+    titleLabel.TextColor3 = Color3.fromRGB(0, 255, 127)
+    titleLabel.TextSize = 16
+    titleLabel.Font = Enum.Font.SourceSansBold
+    titleLabel.Parent = menuFrame
+
+    local contentFrame = Instance.new("Frame")
+    contentFrame.Size = UDim2.new(1, -30, 1, -60)
+    contentFrame.Position = UDim2.new(0, 15, 0, 45)
+    contentFrame.BackgroundTransparency = 1
+    contentFrame.Parent = menuFrame
+
+    local listLayout = Instance.new("UIListLayout")
+    listLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    listLayout.Padding = UDim.new(0, 6)
+    listLayout.Parent = contentFrame
+
+    local function createLabel(text, color)
+        local lbl = Instance.new("TextLabel")
+        lbl.Size = UDim2.new(1, 0, 0, 18)
+        lbl.BackgroundTransparency = 1
+        lbl.Text = text
+        lbl.TextColor3 = color or Color3.fromRGB(200, 200, 200)
+        lbl.TextSize = 15
+        lbl.Font = Enum.Font.SourceSans
+        lbl.TextXAlignment = Enum.TextXAlignment.Left
+        lbl.Parent = contentFrame
+        return lbl
+    end
+
+    createLabel("—— PLAYER ——", Color3.fromRGB(0, 200, 100))
+    local lblSheckles = createLabel("Sheckles: Loading...", Color3.fromRGB(255, 255, 255))
+    local lblFruit = createLabel("Fruit: Loading...", Color3.fromRGB(255, 255, 255))
+    
+    createLabel("—— EVENT AUTO ——", Color3.fromRGB(0, 200, 100))
+    local lblSeedsCollected = createLabel("Event Seeds Picked: 0", Color3.fromRGB(255, 215, 0))
+    
+    createLabel("—— SYSTEM ——", Color3.fromRGB(0, 200, 100))
+    local lblFPS = createLabel("FPS: 0", Color3.fromRGB(255, 255, 255))
+    local lblStatus = createLabel("Status: Rendering Disabled", Color3.fromRGB(255, 150, 0))
+
+    local fpsCount = 0
+    RunService.RenderStepped:Connect(function(deltaTime)
+        fpsCount = math.floor(1 / deltaTime)
+    end)
+
+    local leaderstats = player:WaitForChild("leaderstats", 10)
+    local totalSeedsPicked = 0
+    
+    task.spawn(function()
+        while true do
+            task.wait(0.2)
+            
+            if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                local myRoot = player.Character.HumanoidRootPart
+                
+                for _, obj in pairs(game.Workspace:GetDescendants()) do
+                    if obj:IsA("TouchTransmitter") and obj.Parent then
+                        local item = obj.Parent
+                        local name = string.lower(item.Name)
+                        
+                        if string.find(name, "seed") or string.find(name, "rainbow") or string.find(name, "gold") then
+                            if item:IsA("BasePart") then
+                                firetouchinterest(myRoot, item, 0)
+                                task.wait()
+                                firetouchinterest(myRoot, item, 1)
+                                totalSeedsPicked = totalSeedsPicked + 1
+                                lblSeedsCollected.Text = "Event Seeds Picked: " .. tostring(totalSeedsPicked)
+                            elseif item.Parent:IsA("Model") and item.Parent:FindFirstChildWhichIsA("BasePart") then
+                                local part = item.Parent:FindFirstChildWhichIsA("BasePart")
+                                firetouchinterest(myRoot, part, 0)
+                                task.wait()
+                                firetouchinterest(myRoot, part, 1)
+                                totalSeedsPicked = totalSeedsPicked + 1
+                                lblSeedsCollected.Text = "Event Seeds Picked: " .. tostring(totalSeedsPicked)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end)
+    
+    task.spawn(function()
+        while true do
+            task.wait(0.5)
+            lblFPS.Text = "FPS: " .. tostring(fpsCount)
+            
+            if leaderstats then
+                local shecklesValue = leaderstats:FindFirstChild("Sheckles") or leaderstats:FindFirstChild("Coins")
+                if shecklesValue then
+                    lblSheckles.Text = "Sheckles: $" .. tostring(shecklesValue.Value)
+                end
+            end
+            
+            if player.Character and player.Character:FindFirstChild("Fruit") then
+                lblFruit.Text = "Fruit: " .. tostring(player.Character.Fruit.Value)
+            else
+                local backpack = player:FindFirstChild("Backpack")
+                if backpack and backpack:FindFirstChild("Fruit") then
+                    lblFruit.Text = "Fruit: " .. tostring(backpack.Fruit.Value)
+                end
+            end
+        end
+    end)
 end)
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/ngothaivy98-oss/banana-hub/refs/heads/main/Vxeze%20HUB"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/ngothaivy98-oss/banana-hub/refs/heads/main/Vxeze%20HUB"))() 
