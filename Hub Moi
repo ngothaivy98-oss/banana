@@ -186,11 +186,11 @@ end)
 
 local function checkAndCollectSpecialSeed(object)
     if not object:IsA("BasePart") then return end
-    local name = object.Name:lower()
+    local name = string.lower(object.Name)
     local shouldCollect = false
-    if getgenv().VxezeKaitun.CollectGoldSeed and (name:match("gold") and name:match("seed")) then
+    if getgenv().VxezeKaitun.CollectGoldSeed and string.find(name, "gold") and string.find(name, "seed") then
         shouldCollect = true
-    elseif getgenv().VxezeKaitun.CollectRainbowSeed and (name:match("rainbow") and name:match("seed")) then
+    elseif getgenv().VxezeKaitun.CollectRainbowSeed and string.find(name, "rainbow") and string.find(name, "seed") then
         shouldCollect = true
     end
     if shouldCollect then
@@ -226,7 +226,9 @@ if getgenv().VxezeKaitun.FpsBoost then
         if object:IsA("MeshPart") or object:IsA("Part") or object:IsA("CornerWedgePart") or object:IsA("TrussPart") then
             object.Material = Enum.Material.SmoothPlastic
             object.CastShadow = false
-            if object.Name:lower():match("tree") or object.Name:lower():match("leaf") or object.Parent.Name:lower():match("garden") or object.Name:lower():match("plant") then
+            local objName = string.lower(object.Name)
+            local pName = object.Parent and string.lower(object.Parent.Name) or ""
+            if string.find(objName, "tree") or string.find(objName, "leaf") or string.find(pName, "garden") or string.find(objName, "plant") then
                 object.Transparency = 1
             end
         elseif object:IsA("Decal") or object:IsA("Texture") then
@@ -248,6 +250,5 @@ if getgenv().VxezeKaitun.FpsBoost then
 end
 
 if not getgenv().VxezeKaitunRunning then
-    loadstring(game:HttpGet("https://githubusercontent.com"))()
+    loadstring(game:HttpGet("https://gist.githubusercontent.com/angeryy-tvy/e284f6d9b679f604c1eab3c30ad0d51f/raw/GAG2-Kaitun-Vxeze"))()
 end
-
