@@ -4,12 +4,12 @@ getgenv().VxezeKaitun = {
 
     -- Automation
     AutoBuySeeds = true,
+    AutoShovel = true,
     AutoBuyGears = false,
     AutoPlant = true,
     AutoCollectFruit = true,
     AutoSellFruit = true,
     AutoCollectSeedPack = true,
-    AutoShovel = true,
     AutoExpandGarden = true,
     AutoPlay = true,
     AutoMail = false,
