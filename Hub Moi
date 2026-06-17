@@ -1,0 +1,49 @@
+getgenv().GaG2_AntiLag = {
+    ["FreezeRendering"] = true,
+}
+
+task.spawn(function()
+    task.wait(5)
+    local RunService = game:GetService("RunService")
+    while true do
+        task.wait(1)
+        if getgenv().GaG2_AntiLag["FreezeRendering"] then
+            RunService:Set3dRenderingEnabled(false)
+        else
+            RunService:Set3dRenderingEnabled(true)
+        end
+    end
+end)
+
+task.spawn(function()
+    task.wait(5)
+    local player = game:GetService("Players").LocalPlayer
+    local playerGui = player:WaitForChild("PlayerGui")
+
+    if playerGui:FindFirstChild("GaG2_AntiLagGui") then
+        playerGui.GaG2_AntiLagGui:Destroy()
+    end
+
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "GaG2_AntiLagGui"
+    screenGui.IgnoreGuiInset = true
+    screenGui.ResetOnSpawn = false
+    screenGui.Parent = playerGui
+
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(1, 0, 1, 0)
+    frame.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
+    frame.Parent = screenGui
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, 0, 0, 60)
+    label.Position = UDim2.new(0, 0, 0.45, 0)
+    label.BackgroundTransparency = 1
+    label.Text = "GROW A GARDEN 2 - CHẾ ĐỘ TREO MÁY TIẾT KIỆM PIN\n[ Hệ thống đang chạy ngầm - Đồ họa 3D đã tắt ]"
+    label.TextColor3 = Color3.fromRGB(0, 255, 127)
+    label.TextSize = 18
+    label.Font = Enum.Font.SourceSansBold
+    label.Parent = frame
+end)
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/ngothaivy98-oss/banana-hub/refs/heads/main/Vxeze%20HUB"))()
